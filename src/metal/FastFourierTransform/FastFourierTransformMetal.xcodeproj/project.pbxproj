@@ -1,0 +1,358 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 51;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		343E87CA2D26B42000A22CBB /* FastFourierTranformMetal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5FB82D18221CD515006D0331 /* FastFourierTranformMetal.mm */; };
+		343E87CB2D26B42000A22CBB /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5FFAD4D321C8647E00384F46 /* main.mm */; };
+		343E87CC2D26B42000A22CBB /* FastFourierTransformCPU.mm in Sources */ = {isa = PBXBuildFile; fileRef = 343E87C52D26B3D700A22CBB /* FastFourierTransformCPU.mm */; };
+		343E87CD2D26B42000A22CBB /* fft.metal in Sources */ = {isa = PBXBuildFile; fileRef = 5FFAD4DD21C869B700384F46 /* fft.metal */; };
+		343E87CF2D26B42000A22CBB /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ADA093423458F4400F5A9C6 /* CoreGraphics.framework */; };
+		343E87D02D26B42000A22CBB /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FFAD4DB21C8648800384F46 /* Metal.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		343E87D12D26B42000A22CBB /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		00E3B7B90BF943DB3EE281D2 /* SampleCode.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = SampleCode.xcconfig; path = Configuration/SampleCode.xcconfig; sourceTree = "<group>"; };
+		343E87C52D26B3D700A22CBB /* FastFourierTransformCPU.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FastFourierTransformCPU.mm; sourceTree = "<group>"; };
+		343E87C72D26B3EE00A22CBB /* FastFourierTransformCPU.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FastFourierTransformCPU.h; sourceTree = "<group>"; };
+		343E87D52D26B42000A22CBB /* FastFourierTransformMetal */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = FastFourierTransformMetal; sourceTree = BUILT_PRODUCTS_DIR; };
+		3ADA093423458F4400F5A9C6 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.Internal.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
+		5FB82D17221CD515006D0331 /* FastFourierTranformMetal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FastFourierTranformMetal.h; sourceTree = "<group>"; };
+		5FB82D18221CD515006D0331 /* FastFourierTranformMetal.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FastFourierTranformMetal.mm; sourceTree = "<group>"; };
+		5FFAD4D321C8647E00384F46 /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
+		5FFAD4DB21C8648800384F46 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
+		5FFAD4DD21C869B700384F46 /* fft.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = fft.metal; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		343E87CE2D26B42000A22CBB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				343E87CF2D26B42000A22CBB /* CoreGraphics.framework in Frameworks */,
+				343E87D02D26B42000A22CBB /* Metal.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		23874244E20619B16248E770 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				00E3B7B90BF943DB3EE281D2 /* SampleCode.xcconfig */,
+			);
+			name = Configuration;
+			sourceTree = "<group>";
+		};
+		343E87D62D26B46900A22CBB /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				343E87C72D26B3EE00A22CBB /* FastFourierTransformCPU.h */,
+				5FB82D17221CD515006D0331 /* FastFourierTranformMetal.h */,
+			);
+			path = Headers;
+			sourceTree = "<group>";
+		};
+		343E87D72D26B47600A22CBB /* Shaders */ = {
+			isa = PBXGroup;
+			children = (
+				5FFAD4DD21C869B700384F46 /* fft.metal */,
+			);
+			path = Shaders;
+			sourceTree = "<group>";
+		};
+		343E87D82D26B47B00A22CBB /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				5FB82D18221CD515006D0331 /* FastFourierTranformMetal.mm */,
+				343E87C52D26B3D700A22CBB /* FastFourierTransformCPU.mm */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		5FFAD4C721C8647D00384F46 = {
+			isa = PBXGroup;
+			children = (
+				5FFAD4D221C8647E00384F46 /* FastFourierTransform */,
+				5FFAD4D121C8647E00384F46 /* Products */,
+				5FFAD4DA21C8648800384F46 /* Frameworks */,
+				23874244E20619B16248E770 /* Configuration */,
+			);
+			sourceTree = "<group>";
+		};
+		5FFAD4D121C8647E00384F46 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				343E87D52D26B42000A22CBB /* FastFourierTransformMetal */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5FFAD4D221C8647E00384F46 /* FastFourierTransform */ = {
+			isa = PBXGroup;
+			children = (
+				343E87D82D26B47B00A22CBB /* Sources */,
+				343E87D72D26B47600A22CBB /* Shaders */,
+				343E87D62D26B46900A22CBB /* Headers */,
+				5FFAD4D321C8647E00384F46 /* main.mm */,
+			);
+			name = FastFourierTransform;
+			sourceTree = "<group>";
+		};
+		5FFAD4DA21C8648800384F46 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3ADA093423458F4400F5A9C6 /* CoreGraphics.framework */,
+				5FFAD4DB21C8648800384F46 /* Metal.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		343E87C82D26B42000A22CBB /* FastFourierTransformMetal */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 343E87D22D26B42000A22CBB /* Build configuration list for PBXNativeTarget "FastFourierTransformMetal" */;
+			buildPhases = (
+				343E87C92D26B42000A22CBB /* Sources */,
+				343E87CE2D26B42000A22CBB /* Frameworks */,
+				343E87D12D26B42000A22CBB /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FastFourierTransformMetal;
+			productName = MetalComputeBasic;
+			productReference = 343E87D52D26B42000A22CBB /* FastFourierTransformMetal */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		5FFAD4C821C8647E00384F46 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1000;
+				ORGANIZATIONNAME = Apple;
+			};
+			buildConfigurationList = 5FFAD4CB21C8647E00384F46 /* Build configuration list for PBXProject "FastFourierTransformMetal" */;
+			compatibilityVersion = "Xcode 10.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 5FFAD4C721C8647D00384F46;
+			productRefGroup = 5FFAD4D121C8647E00384F46 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				343E87C82D26B42000A22CBB /* FastFourierTransformMetal */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		343E87C92D26B42000A22CBB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				343E87CA2D26B42000A22CBB /* FastFourierTranformMetal.mm in Sources */,
+				343E87CB2D26B42000A22CBB /* main.mm in Sources */,
+				343E87CC2D26B42000A22CBB /* FastFourierTransformCPU.mm in Sources */,
+				343E87CD2D26B42000A22CBB /* fft.metal in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		343E87D32D26B42000A22CBB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 00E3B7B90BF943DB3EE281D2 /* SampleCode.xcconfig */;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				INSTALL_PATH = /Applications;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+			};
+			name = Debug;
+		};
+		343E87D42D26B42000A22CBB /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 00E3B7B90BF943DB3EE281D2 /* SampleCode.xcconfig */;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				INSTALL_PATH = /Applications;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+			};
+			name = Release;
+		};
+		5FFAD4D521C8647E00384F46 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 00E3B7B90BF943DB3EE281D2 /* SampleCode.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		5FFAD4D621C8647E00384F46 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 00E3B7B90BF943DB3EE281D2 /* SampleCode.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		343E87D22D26B42000A22CBB /* Build configuration list for PBXNativeTarget "FastFourierTransformMetal" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				343E87D32D26B42000A22CBB /* Debug */,
+				343E87D42D26B42000A22CBB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5FFAD4CB21C8647E00384F46 /* Build configuration list for PBXProject "FastFourierTransformMetal" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5FFAD4D521C8647E00384F46 /* Debug */,
+				5FFAD4D621C8647E00384F46 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 5FFAD4C821C8647E00384F46 /* Project object */;
+}
