@@ -1,5 +1,6 @@
 #import <Foundation/Foundation.h>
 #import <Metal/Metal.h>
+#import <iostream>
 
 #import "FastFourierTransformCPU.h"
 #import "FastFourierTranformMetal.h"
@@ -18,10 +19,11 @@ int main(int argc, const char * argv[]) {
     
     @autoreleasepool {
         id<MTLDevice> device = MTLCreateSystemDefaultDevice();
-        FastFourierTranformMetal* fftMetal = [[FastFourierTranformMetal alloc] initWithDevice:device];
+        FastFourierTranformMetal* fftMetal = [[FastFourierTranformMetal alloc] initWithFFTSequence:base withDevice:device];
         
         [fftMetal prepareData];
         [fftMetal sendComputeCommand];
+        std::cout << "Metal: ";
         [fftMetal printResult];
     }
     return 0;

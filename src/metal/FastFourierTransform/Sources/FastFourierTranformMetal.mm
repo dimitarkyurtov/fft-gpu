@@ -1,8 +1,7 @@
 #import <iostream>
-#import "FastFourierTranformMetal.h"
+#import <complex>
 
-const unsigned int arrayLength = 1 << 5;
-const unsigned int bufferSize = arrayLength * sizeof(float);
+#import "FastFourierTranformMetal.h"
 
 @implementation FastFourierTranformMetal
 {
@@ -13,15 +12,23 @@ const unsigned int bufferSize = arrayLength * sizeof(float);
     id<MTLCommandQueue> _mCommandQueue;
 
     id<MTLBuffer> _mBufferA;
-    id<MTLBuffer> _mBufferB;
+    id<MTLBuffer> _mBufferSize;
     id<MTLBuffer> _mBufferResult;
 
+    std::vector<std::complex<float>> fftSequence;
+    std::vector<std::complex<float>> ifftSequence;
 }
 
-- (instancetype) initWithDevice: (id<MTLDevice>) device
+- (instancetype) initWithFFTSequence: (std::vector<float>)fftSequence withDevice: (id<MTLDevice>) device;
 {
     self = [super init];
     if (self) {
+        self->fftSequence = std::vector<std::complex<float>>(fftSequence.size());
+        std::transform(fftSequence.begin(), fftSequence.end(), self->fftSequence.begin(),
+                           [](float value) {
+                                return std::complex<float>(value);
+                           });
+        
         _mDevice = device;
         NSError* error = nil;
 
@@ -55,12 +62,12 @@ const unsigned int bufferSize = arrayLength * sizeof(float);
 
 - (void) prepareData
 {
-    _mBufferA = [_mDevice newBufferWithLength:bufferSize options:MTLResourceStorageModeShared];
-    _mBufferB = [_mDevice newBufferWithLength:bufferSize options:MTLResourceStorageModeShared];
-    _mBufferResult = [_mDevice newBufferWithLength:bufferSize options:MTLResourceStorageModeShared];
+    _mBufferA = [_mDevice newBufferWithLength:fftSequence.size()*sizeof(float) options:MTLResourceStorageModeShared];
+    _mBufferSize = [_mDevice newBufferWithLength:sizeof(float) options:MTLResourceStorageModeShared];
+    _mBufferResult = [_mDevice newBufferWithLength:fftSequence.size()*sizeof(float) options:MTLResourceStorageModeShared];
 
-    [self generateRandomFloatData:_mBufferA];
-    [self generateRandomFloatData:_mBufferB];
+    [self populateBuffer:_mBufferA];
+    static_cast<uint*>(_mBufferSize.contents)[0] = static_cast<uint>(fftSequence.size());
 }
 
 - (void) sendComputeCommand
@@ -84,14 +91,14 @@ const unsigned int bufferSize = arrayLength * sizeof(float);
 {
     [computeEncoder setComputePipelineState:_mAddFunctionPSO];
     [computeEncoder setBuffer:_mBufferA offset:0 atIndex:0];
-    [computeEncoder setBuffer:_mBufferB offset:0 atIndex:1];
-    [computeEncoder setBuffer:_mBufferResult offset:0 atIndex:2];
+    [computeEncoder setBuffer:_mBufferResult offset:0 atIndex:1];
+    [computeEncoder setBuffer:_mBufferSize offset:0 atIndex:2];
 
-    MTLSize gridSize = MTLSizeMake(arrayLength, 1, 1);
+    MTLSize gridSize = MTLSizeMake(fftSequence.size(), 1, 1);
 
     NSUInteger threadGroupSize = _mAddFunctionPSO.maxTotalThreadsPerThreadgroup;
-    if (threadGroupSize > arrayLength) {
-        threadGroupSize = arrayLength;
+    if (threadGroupSize > fftSequence.size()) {
+        threadGroupSize = fftSequence.size();
     }
     MTLSize threadgroupSize = MTLSizeMake(threadGroupSize, 1, 1);
 
@@ -99,20 +106,16 @@ const unsigned int bufferSize = arrayLength * sizeof(float);
               threadsPerThreadgroup:threadgroupSize];
 }
 
-- (void) generateRandomFloatData: (id<MTLBuffer>) buffer
+- (void) populateBuffer: (id<MTLBuffer>) buffer
 {
-    float* dataPtr = static_cast<float*>(buffer.contents);
-
-    for (unsigned long index = 0; index < arrayLength; index++) {
-        dataPtr[index] = (float)rand()/(float)(RAND_MAX);
-    }
+    memcpy(buffer.contents, fftSequence.data(), fftSequence.size() * sizeof(std::complex<float>));
 }
 
 - (void) printResult
 {
-    float* dataPtr = static_cast<float*>(_mBufferResult.contents);
+    auto dataPtr{ static_cast<std::complex<float>*>(_mBufferResult.contents) };
 
-    for (unsigned long index = 0; index < arrayLength; index++) {
+    for (unsigned long index = 0; index < fftSequence.size(); index++) {
         std::cout << dataPtr[index] << " ";
     }
     std::cout << std::endl;
