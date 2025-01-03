@@ -10,6 +10,7 @@
     std::vector<std::complex<double>> ifftSequence;
 }
 
+/// See the header.
 - (instancetype)initWithFFTSequence: (std::vector<float>)fftSequence
 {
     self = [super init];
@@ -23,11 +24,13 @@
     return self;
 }
 
+/// See the header.
 - (std::vector<std::complex<double>>)fft
 {
     return ifftSequence = [self fftBase:fftSequence withRootOfUnityFactor:1];
 }
 
+/// See the header.
 - (std::vector<std::complex<double>>)ifft
 {
     fftSequence = [self fftBase:ifftSequence withRootOfUnityFactor:-1];
@@ -38,6 +41,28 @@
     return fftSequence;
 }
 
+/// See the header.
+- (void)printFFTSequence
+{
+    for (const auto& el : fftSequence) {
+        std::cout << el << " ";
+    }
+    std::cout << std::endl;
+}
+
+/// See the header.
+- (void)printIFFTSequence
+{
+    for (const auto& el : ifftSequence) {
+        std::cout << el << " ";
+    }
+    std::cout << std::endl;
+}
+
+/// Helper function used to extract the common logic of the Cooley-Tukey FFT algorithm between the FFT and IFFT algorithms.
+/// - Parameters:
+///   - fftSequence: The input vector.
+///   - factor: The factor to exponent the roots of unity by.
 - (std::vector<std::complex<double>>)fftBase: (std::vector<std::complex<double>>)fftSequence withRootOfUnityFactor:(double)factor
 {
     auto n { fftSequence.size() };
@@ -80,28 +105,6 @@
     return result;
 }
 
-- (void)printFFTSequence
-{
-    for (const auto& el : fftSequence) {
-        std::cout << el << " ";
-    }
-    std::cout << std::endl;
-}
-
-- (void)printIFFTSequence
-{
-    for (const auto& el : ifftSequence) {
-        std::cout << el << " ";
-    }
-    std::cout << std::endl;
-}
-
-- (std::complex<double>)roundToNthDigitWithNumber: (std::complex<double>)number digits:(unsigned)digits
-{
-    double imagRounded = std::round(number.imag()*std::pow(10, digits))/static_cast<int>(std::pow(10, digits));
-    double realRounded = std::round(number.real()*std::pow(10, digits))/static_cast<int>(std::pow(10, digits));
-    return std::complex<double>(realRounded, imagRounded);
-}
 
 @end
 
