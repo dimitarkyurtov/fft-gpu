@@ -1,6 +1,12 @@
 # Prerequisites
 *.d
 
+# Build directory
+build
+
+# Xcode
+*xcuserdata*
+
 # Compiled Object files
 *.slo
 *.lo

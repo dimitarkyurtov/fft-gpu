@@ -38,7 +38,7 @@ By comparing the speedup achieved by the algorithm on various hardware, we aim t
 ```plaintext
 ├── src/
 │   ├── metal/
-│   │   └── fft_metal.cpp  # Metal implementation
+│   │   └── FastFourierTransformMetal.xcodeproj # Project file for Metal & CPU implementation.
 │   ├── cuda/
 │   │   └── fft_cuda.cu    # CUDA implementation
 │   ├── opencl/
@@ -49,11 +49,32 @@ By comparing the speedup achieved by the algorithm on various hardware, we aim t
 └── LICENSE                # License information
 ```
 
+## How to build
+
+- Metal implementation:
+```bash
+xcodebuild -project FastFourierTransformMetal.xcodeproj \
+           -scheme FastFourierTransformMetal \
+           -configuration Release \
+           -derivedDataPath build \ # Override the build directory
+           build
+```
+- CUDA implementation:
+```bash
+CUDA test
+```
+- OpenCL implementation:
+```bash
+OpenCL test
+```
+
 ## How to run
 
 - Metal implementation:
 ```bash
-Metal test
+cd build/Build/Products/Release/
+./FastFourierTransformMetal -cpu 1000 # Executes FFT with 1000 elements on CPU
+./FastFourierTransformMetal -gpu 1000 # Executes FFT with 1000 elements on GPU
 ```
 - CUDA implementation:
 ```bash
