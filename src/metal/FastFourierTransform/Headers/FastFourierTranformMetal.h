@@ -11,9 +11,13 @@ NS_ASSUME_NONNULL_BEGIN
 /// - Parameter fftSequence: The input vector.
 /// - Parameter device: The GPU to run the computations on.
 - (instancetype) initWithFFTSequence: (std::vector<float>)fftSequence withDevice: (id<MTLDevice>) device;
-- (void) prepareData;
-- (void) sendComputeCommand;
+
+/// Performs the FFT algorithm.
+- (void) fft;
+
+/// Prints the result vector of solving the DFT equation using the FFT algorithm.
 - (void) printResult;
+
 @end
 
 NS_ASSUME_NONNULL_END

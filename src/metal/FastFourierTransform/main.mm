@@ -5,9 +5,6 @@
 #import "FastFourierTransformCPU.h"
 #import "FastFourierTranformMetal.h"
 
-//const unsigned int arrayLength = 1 << 24;
-//const unsigned int bufferSize = arrayLength * sizeof(float);
-
 int main(int argc, const char * argv[]) {
     std::vector<float> base {1,2,3,4,5,6,7,8};
     
@@ -21,9 +18,7 @@ int main(int argc, const char * argv[]) {
         id<MTLDevice> device = MTLCreateSystemDefaultDevice();
         FastFourierTranformMetal* fftMetal = [[FastFourierTranformMetal alloc] initWithFFTSequence:base withDevice:device];
         
-        [fftMetal prepareData];
-        [fftMetal sendComputeCommand];
-        std::cout << "Metal: ";
+        [fftMetal fft];
         [fftMetal printResult];
     }
     return 0;

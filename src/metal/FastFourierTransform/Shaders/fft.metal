@@ -2,6 +2,7 @@
 #include <metal_numeric>
 using namespace metal;
 
+/// Struct representing complex numbers.
 struct Complex {
     float real;
     float imag;
@@ -11,14 +12,17 @@ struct Complex {
     Complex(const device Complex& c) : real{ c.real }, imag{ c.imag } {}
 };
 
+/// Adds 2 complex numbers and returns the addition.
 Complex add(const thread Complex& a, const thread Complex& b) {
     return Complex(a.real + b.real, a.imag + b.imag);
 }
 
+/// Subtracts 2 complex numbers and returns the subtraction.
 Complex subtract(const thread Complex& a, const thread Complex& b) {
     return Complex(a.real - b.real, a.imag - b.imag);
 }
 
+/// Multiplies 2 complex numbers and returns the multiplication.
 Complex multiply(const thread Complex& a, const thread Complex& b) {
     Complex result;
     result.real = a.real * b.real - a.imag * b.imag;
@@ -26,6 +30,7 @@ Complex multiply(const thread Complex& a, const thread Complex& b) {
     return result;
 }
 
+/// Returns e^z.
 Complex exp(Complex z) {
     float expReal = exp(z.real);
     float cosImag = cos(z.imag);
@@ -44,29 +49,34 @@ unsigned int reverseBits(unsigned int n, unsigned int numBits) {
     return reversed;
 }
 
-kernel void fft(device const Complex* fftSequence,
-                device Complex* fftSequenceBitReversed,
+kernel void reverse_bits(device const Complex* fftSequence,
+                         device Complex* fftSequenceBitReversed,
+                         device const uint* N,
+                         uint index [[thread_position_in_grid]])
+{
+    fftSequenceBitReversed[reverseBits(index, log2(static_cast<half>(*N)))] = Complex(fftSequence[index].real, fftSequence[index].imag);
+}
+
+kernel void fft(device Complex* fftSequenceResult,
                 device const uint* N,
+                device uint* s,
                 uint index [[thread_position_in_grid]])
 {
-    fftSequenceBitReversed[reverseBits(index*2, log2(static_cast<half>(*N)))] = Complex(fftSequence[index*2].real, fftSequence[index*2].imag);
-    fftSequenceBitReversed[reverseBits(index*2+1, log2(static_cast<half>(*N)))] = Complex(fftSequence[index*2+1].real, fftSequence[index*2+1].imag);
-    threadgroup_barrier(mem_flags::mem_threadgroup);
+    auto ss { *s };
+    uint k { index/(ss/2) * (ss) };
+    uint j { index%(ss/2) };
+
+    auto W{ exp(Complex(0, -2 * M_PI_F * j / (ss))) };
+
+    Complex c1 = fftSequenceResult[k+j];
+    Complex c2 = fftSequenceResult[k+j+ss/2];
+    Complex c3 = multiply(W, c2);
+
+    fftSequenceResult[k+j] = add(c1, c3);
+    fftSequenceResult[k+j+ss/2] = subtract(c1, c3);
     
-    for (uint s = 2; s <= *N; s *= 2)
+    if (index == 0)
     {
-        uint k { index/(s/2) * s };
-        uint j { index%(s/2) };
-        
-        auto W{ exp(Complex(0, -2 * M_PI_F * j / s)) };
-        
-        Complex c1 = fftSequenceBitReversed[k+j];
-        Complex c2 = fftSequenceBitReversed[k+j+s/2];
-        Complex c3 = multiply(W, c2);
-        
-        fftSequenceBitReversed[k+j] = add(c1, c3);
-        fftSequenceBitReversed[k+j+s/2] = subtract(c1, c3);
-        
-        threadgroup_barrier(mem_flags::mem_threadgroup);
+        *s *= 2;
     }
 }
