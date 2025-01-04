@@ -23,7 +23,7 @@ By comparing the speedup achieved by the algorithm on various hardware, we aim t
 ## Requirements
 
 ### General
-- C++17 or later
+- C++14 or later
 - A GPU compatible with the targeted frameworks
 - Benchmarking tools for execution time measurement
 
@@ -73,8 +73,8 @@ OpenCL test
 - Metal implementation:
 ```bash
 cd build/Build/Products/Release/
-./FastFourierTransformMetal -cpu 1000 # Executes FFT with 1000 elements on CPU
-./FastFourierTransformMetal -gpu 1000 # Executes FFT with 1000 elements on GPU
+./FastFourierTransformMetal -cpu 1024 # Executes FFT with 1024 elements on CPU
+./FastFourierTransformMetal -gpu 1024 # Executes FFT with 1024 elements on GPU
 ```
 - CUDA implementation:
 ```bash
@@ -84,6 +84,10 @@ CUDA test
 ```bash
 OpenCL test
 ```
+<br>
+
+> ⚠️ **Note:**  
+> Currently only powers of 2 are supported for the number of the elements.
 
 ## Benchmarking 
 
