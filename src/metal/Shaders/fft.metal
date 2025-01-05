@@ -60,7 +60,6 @@ kernel void reverse_bits(device const Complex* fftSequence,
 }
 
 kernel void fft(device Complex* fftSequenceResult,
-                device const uint* N,
                 device uint* s,
                 uint index [[thread_position_in_grid]])
 {

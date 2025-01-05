@@ -18,6 +18,11 @@ int main(int argc, const char * argv[]) {
     if (argc == 2)
     {
         fftSequenceLength = std::stoi(argv[1]);
+        if (fftSequenceLength > 100'000)
+        {
+            std::cerr << "Safety limit 100 000 threads.\n";
+            return 1;
+        }
     }
     else if (argc == 3)
     {

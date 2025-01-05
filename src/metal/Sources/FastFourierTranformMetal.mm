@@ -152,8 +152,7 @@
     [computeEncoder setComputePipelineState:_mFFTFunctionCP];
     
     [computeEncoder setBuffer:_mBufferFFTSequenceBitsReversed offset:0 atIndex:0];
-    [computeEncoder setBuffer:_mBufferSize offset:0 atIndex:1];
-    [computeEncoder setBuffer:_mBufferElementsPerSequence offset:0 atIndex:2];
+    [computeEncoder setBuffer:_mBufferElementsPerSequence offset:0 atIndex:1];
 
     auto numberOfThreads { fftSequence.size()/2 };
     MTLSize gridSize = MTLSizeMake(numberOfThreads, 1, 1);

@@ -45,21 +45,21 @@ void reverse_bits(const cuFloatComplex *fftSequence, cuFloatComplex *fftSequence
 }
 
 __global__
-void fft(cuFloatComplex *fftSequenceBitReversed, const int N, const int s)
+void fft(cuFloatComplex *fftSequenceBitReversed, const int s)
 {
   int tid = blockIdx.x * blockDim.x + threadIdx.x;
   
-  uint k { tid/(s/2) * s };
-  uint j { tid%(s/2) };
+  int k { tid/(s/2) * s };
+  int j { tid%(s/2) };
 
-  auto W{ exp(make_cuFloatComplex(0, -2 * M_PI_F * j / s)) };
+  auto W{ exp(make_cuFloatComplex(0, -2 * M_PI * j / s)) };
 
   cuFloatComplex c1 { fftSequenceBitReversed[k+j] };
   cuFloatComplex c2 { fftSequenceBitReversed[k+j+s/2] };
   cuFloatComplex c3 { cuCmulf(W, c2) };
 
   fftSequenceBitReversed[k+j] = cuCaddf(c1, c3);
-  fftSequenceBitReversed[k+j+ss/2] = cuCsubf(c1, c3);
+  fftSequenceBitReversed[k+j+s/2] = cuCsubf(c1, c3);
 }
 
 void printCuComplex(cuFloatComplex c)
@@ -67,9 +67,25 @@ void printCuComplex(cuFloatComplex c)
   std::cout << "(" << cuCrealf(c) << "," << cuCimagf(c) << ") ";
 }
 
-int main(void)
+int main(int argc, const char * argv[])
 {
   int N = 8;
+
+  if (argc == 2)
+  {
+    N = std::stoi(argv[1]);
+    if (N > 100'000)
+      {
+          std::cerr << "Safety limit 100 000 threads.\n";
+          return 1;
+      }
+  }
+  else
+  {
+      std::cerr << "Usage: " << argv[0] << " <natural_number>\n";
+      return 1;
+  }
+
   cuFloatComplex *fftSequence, *fftSequenceBitReversed;
 
   checkCuda( cudaMallocManaged(&fftSequence, N*sizeof(cuFloatComplex)) );
@@ -80,12 +96,17 @@ int main(void)
     fftSequence[i-1] = make_cuFloatComplex(i, 0);
   }
 
-  fftSequenceBitReversed[2] = make_cuFloatComplex(1,1);
-  reverse_bits<<<1, 8>>>(fftSequence, fftSequenceBitReversed, log2(N));
+  int blockSize = 256 > N ? N : 256;
+  int numBlocks = (N + blockSize - 1) / blockSize;
+
+  reverse_bits<<<numBlocks, blockSize>>>(fftSequence, fftSequenceBitReversed, log2(N));
+
+  blockSize = 256 > N ? N : 256;
+  numBlocks = (N/2 + blockSize - 1) / blockSize;
 
   for (int s = 2; s <= N; s *= 2)
   {
-    fft<<<1, 8>>>(fftSequenceBitReversed, N, s);
+    fft<<<numBlocks, blockSize>>>(fftSequenceBitReversed, s);
   }
 
   cudaDeviceSynchronize();
