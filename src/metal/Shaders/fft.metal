@@ -39,10 +39,12 @@ Complex exp(Complex z) {
     return Complex(expReal * cosImag, expReal * sinImag);
 }
 
-unsigned int reverseBits(unsigned int n, unsigned int numBits) {
-    unsigned int reversed = 0;
-    for (unsigned int i = 0; i < numBits; ++i) {
-        unsigned int lsb = n & 1;
+unsigned int reverseBits(unsigned int n, unsigned int numBits)
+{
+    unsigned int reversed{ 0 };
+    for (unsigned int i = 0; i < numBits; ++i)
+    {
+        unsigned int lsb { n & 1 };
         reversed = (reversed << 1) | lsb;
         n >>= 1;
     }
@@ -65,12 +67,12 @@ kernel void fft(device Complex* fftSequenceResult,
     auto ss { *s };
     uint k { index/(ss/2) * (ss) };
     uint j { index%(ss/2) };
-
+    
     auto W{ exp(Complex(0, -2 * M_PI_F * j / (ss))) };
-
-    Complex c1 = fftSequenceResult[k+j];
-    Complex c2 = fftSequenceResult[k+j+ss/2];
-    Complex c3 = multiply(W, c2);
+    
+    Complex c1 { fftSequenceResult[k+j] };
+    Complex c2 { fftSequenceResult[k+j+ss/2] };
+    Complex c3 { multiply(W, c2) };
 
     fftSequenceResult[k+j] = add(c1, c3);
     fftSequenceResult[k+j+ss/2] = subtract(c1, c3);
