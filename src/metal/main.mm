@@ -22,8 +22,13 @@ int main(int argc, const char * argv[]) {
     else if (argc == 3)
     {
         fftSequenceLength = std::stoi(argv[2]);
+        if (fftSequenceLength > 100'000)
+        {
+            std::cerr << "Safety limit 100 000 threads.\n";
+            return 1;
+        }
+        
         std::string firstArg{ argv[1] };
-
         if (firstArg == "-cpu")
         {
             mode = ExecutionMode::CPU;
@@ -58,7 +63,7 @@ int main(int argc, const char * argv[]) {
         {
             FastFourierTransformCPU *fftCPU = [[FastFourierTransformCPU alloc] initWithFFTSequence:fftSequence];
             [fftCPU fft];
-            [fftCPU printIFFTSequence];
+//            [fftCPU printIFFTSequence];
             
             // [fftCPU ifft];
             // [fftCPU printFFTSequence];
@@ -72,7 +77,7 @@ int main(int argc, const char * argv[]) {
                 FastFourierTranformMetal* fftMetal = [[FastFourierTranformMetal alloc] initWithFFTSequence:fftSequence withDevice:device];
                 
                 [fftMetal fft];
-                [fftMetal printResult];
+//                [fftMetal printResult];
             }
         }
         default:
