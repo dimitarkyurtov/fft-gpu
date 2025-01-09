@@ -40,9 +40,9 @@ By comparing the speedup achieved by the algorithm on various hardware, we aim t
 │   ├── metal/
 │   │   └── FastFourierTransformMetal.xcodeproj # Project file for Metal & CPU implementation.
 │   ├── cuda/
-│   │   └── fft_cuda.cu    # CUDA implementation
+│   │   └── fft.cu    # CUDA implementation
 │   ├── opencl/
-│       └── fft_opencl.cl  # OpenCL implementation
+│       └── fft.cpp   # OpenCL implementation
 ├── benchmarks/
 │   ├── run_benchmarks.py  # Script for running benchmarks
 ├── README.md              # Project documentation
