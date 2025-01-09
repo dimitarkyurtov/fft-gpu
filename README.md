@@ -51,9 +51,9 @@ By comparing the speedup achieved by the algorithm on various hardware, we aim t
 
 ## How to build
 
-- Metal implementation:
+- Metal implementation - MacOS:
 ```bash
-xcodebuild -project FastFourierTransformMetal.xcodeproj \
+xcodebuild -project src/metal/FastFourierTransformMetal.xcodeproj \
            -scheme FastFourierTransformMetal \
            -configuration Release \
            -derivedDataPath build \ # Override the build directory
@@ -63,9 +63,9 @@ xcodebuild -project FastFourierTransformMetal.xcodeproj \
 ```bash
 CUDA test
 ```
-- OpenCL implementation:
+- OpenCL implementation - Windows, where ./OpenCL points to the OpenCL library:
 ```bash
-OpenCL test
+g++ src/opencl/fft.cpp -o fft.exe -I"OpenCL\include" -L"OpenCL\lib\x86_64" -lOpenCL
 ```
 
 ## How to run
@@ -82,7 +82,7 @@ CUDA test
 ```
 - OpenCL implementation:
 ```bash
-OpenCL test
+.\fft.exe 1024
 ```
 <br>
 
