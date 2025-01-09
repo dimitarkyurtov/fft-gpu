@@ -96,7 +96,14 @@ int main(int argc, const char * argv[])
     fftSequence[i-1] = make_cuFloatComplex(i, 0);
   }
 
-  int blockSize = 256 > N ? N : 256;
+  cudaDeviceProp prop;
+  int device;
+  cudaGetDevice(&device);
+  cudaGetDeviceProperties(&prop, device);
+  std::cout << "Maximum work group size (threads per block): " << prop.maxThreadsPerBlock << std::endl;
+
+  /// Important to set the work group to maximum size for maximum compute unit unitilization
+  int blockSize = prop.maxThreadsPerBlock > N ? N : prop.maxThreadsPerBlock;
   int numBlocks = (N + blockSize - 1) / blockSize;
 
   reverse_bits<<<numBlocks, blockSize>>>(fftSequence, fftSequenceBitReversed, log2(N));

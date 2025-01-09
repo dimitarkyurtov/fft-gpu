@@ -7,6 +7,9 @@ build
 # Xcode
 *xcuserdata*
 
+# VSCode
+.vscode/
+
 # Compiled Object files
 *.slo
 *.lo

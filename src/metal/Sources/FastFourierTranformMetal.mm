@@ -135,6 +135,7 @@
 
     MTLSize gridSize = MTLSizeMake(fftSequence.size(), 1, 1);
 
+    /// Important to set the work group to maximum size for maximum compute unit unitilization
     NSUInteger threadGroupSize = _mReverseBitsFunctionCP.maxTotalThreadsPerThreadgroup;
     if (threadGroupSize > fftSequence.size()) {
         threadGroupSize = fftSequence.size();
