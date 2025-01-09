@@ -30,7 +30,7 @@ By comparing the speedup achieved by the algorithm on various hardware, we aim t
 ### Framework-specific
 - **Metal**: macOS 10.13+ with Xcode and a Metal-compatible GPU.
 - **CUDA**: NVIDIA GPU with CUDA Toolkit installed.
-- **OpenCL**: OpenCL drivers installed for your platform.
+- **OpenCL**: OpenCL drivers and library installed for your platform.
 
 
 ## Repository Structure
@@ -61,7 +61,7 @@ xcodebuild -project src/metal/FastFourierTransformMetal.xcodeproj \
 ```
 - CUDA implementation:
 ```bash
-CUDA test
+nvcc src/cuda/fft.cu -o fft.exe
 ```
 - OpenCL implementation - Windows, where ./OpenCL points to the OpenCL library:
 ```bash
@@ -78,7 +78,7 @@ cd build/Build/Products/Release/
 ```
 - CUDA implementation:
 ```bash
-CUDA test
+./fft.exe 1024
 ```
 - OpenCL implementation:
 ```bash
