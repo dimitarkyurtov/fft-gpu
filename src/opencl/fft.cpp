@@ -3,6 +3,7 @@
 #include <cmath>
 #include <vector>
 #include <complex>
+#include <chrono>
 
 void checkError(cl_int err, const char* operation) {
     if (err != CL_SUCCESS) {
@@ -105,29 +106,33 @@ int main(int argc, const char* argv[]) {
         fftSequence[i] = std::complex<float>(i + 1, 0);
     }
 
-    cl::Buffer bufferInput(context, CL_MEM_READ_WRITE, N * sizeof(cl_float2));
-    cl::Buffer bufferOutput(context, CL_MEM_READ_WRITE, N * sizeof(cl_float2));
+    auto start{ std::chrono::high_resolution_clock::now() };
 
-    queue.enqueueWriteBuffer(bufferInput, CL_TRUE, 0, N * sizeof(cl_float2), fftSequence.data());
+    for (size_t i = 0; i < 100'00) {
+        cl::Buffer bufferInput(context, CL_MEM_READ_WRITE, N * sizeof(cl_float2));
+        cl::Buffer bufferOutput(context, CL_MEM_READ_WRITE, N * sizeof(cl_float2));
 
-    reverseBits.setArg(0, bufferInput);
-    reverseBits.setArg(1, bufferOutput);
-    reverseBits.setArg(2, (int)std::log2(N));
-    queue.enqueueNDRangeKernel(reverseBits, cl::NullRange, cl::NDRange(N), cl::NDRange(blockSizeReverseBits));
+        queue.enqueueWriteBuffer(bufferInput, CL_TRUE, 0, N * sizeof(cl_float2), fftSequence.data());
 
-    cl::Buffer* currentBuffer = &bufferOutput;
-    for (int s = 2; s <= N; s *= 2) {
-        fft.setArg(0, *currentBuffer);
-        fft.setArg(1, s);
-        queue.enqueueNDRangeKernel(fft, cl::NullRange, cl::NDRange(N/2), cl::NDRange(blockSizeFFT));
+        reverseBits.setArg(0, bufferInput);
+        reverseBits.setArg(1, bufferOutput);
+        reverseBits.setArg(2, (int)std::log2(N));
+        queue.enqueueNDRangeKernel(reverseBits, cl::NullRange, cl::NDRange(N), cl::NDRange(blockSizeReverseBits));
+
+        cl::Buffer* currentBuffer = &bufferOutput;
+        for (int s = 2; s <= N; s *= 2) {
+            fft.setArg(0, *currentBuffer);
+            fft.setArg(1, s);
+            queue.enqueueNDRangeKernel(fft, cl::NullRange, cl::NDRange(N/2), cl::NDRange(blockSizeFFT));
+        }
+
+        queue.enqueueReadBuffer(*currentBuffer, CL_TRUE, 0, N * sizeof(cl_float2), fftSequenceBitReversed.data());
     }
 
-    queue.enqueueReadBuffer(*currentBuffer, CL_TRUE, 0, N * sizeof(cl_float2), fftSequenceBitReversed.data());
+    auto end{ std::chrono::high_resolution_clock::now() };
 
-    for (const auto& c : fftSequenceBitReversed) {
-        printComplex(c);
-    }
-    std::cout << std::endl;
+    std::chrono::duration<double> elapsed{ end - start };
+    std::cout << "Elapsed time: " << elapsed.count() << " seconds\n";
 
     return 0;
 }

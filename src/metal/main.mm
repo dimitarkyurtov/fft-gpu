@@ -1,6 +1,7 @@
 #import <Foundation/Foundation.h>
 #import <Metal/Metal.h>
 #import <iostream>
+#include <mach/mach_time.h>
 
 #import "FastFourierTransformCPU.h"
 #import "FastFourierTranformMetal.h"
@@ -81,8 +82,20 @@ int main(int argc, const char * argv[]) {
                 id<MTLDevice> device = MTLCreateSystemDefaultDevice();
                 FastFourierTranformMetal* fftMetal = [[FastFourierTranformMetal alloc] initWithFFTSequence:fftSequence withDevice:device];
                 
-                [fftMetal fft];
-//                [fftMetal printResult];
+                uint64_t startTime{ mach_absolute_time() };
+                for (int i = 0; i < 100'000; i ++)
+                {
+                    [fftMetal fft];
+                    //                [fftMetal printResult];
+                }
+                uint64_t endTime{ mach_absolute_time() };
+                uint64_t elapsedTime{ endTime - startTime };
+                
+                mach_timebase_info_data_t timebase;
+                mach_timebase_info(&timebase);
+                double elapsedTimeMs{ (double)elapsedTime * timebase.numer / timebase.denom / 1e9 };
+
+                NSLog(@"Execution Time: %.3f s", elapsedTimeMs);
             }
         }
         default:
