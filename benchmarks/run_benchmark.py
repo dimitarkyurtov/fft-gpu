@@ -35,8 +35,8 @@ def main():
                     try:
                         for i in [1,2,3]:
                             total_threads = sm*cuda_thread_group_length
-                            print(f"Executing - {i} - {file_path} -gpu {total_threads}:")
-                            subprocess.run([file_path, "-gpu", str(total_threads)], check=True)
+                            print(f"Executing - {i} - {file_path} {total_threads}:")
+                            subprocess.run([file_path, str(total_threads)], check=True)
                     except subprocess.CalledProcessError as e:
                         print(f"Error executing {file_path} with argument {total_threads}: {e}")
                 break
@@ -45,8 +45,8 @@ def main():
                     try:
                         for i in [1,2,3]:
                             total_threads = cu*opencl_thread_group_length
-                            print(f"Executing - {i} - {file_path} -gpu {total_threads}:")
-                            subprocess.run([file_path, "-gpu", str(total_threads)], check=True)
+                            print(f"Executing - {i} - {file_path} {total_threads}:")
+                            subprocess.run([file_path, str(total_threads)], check=True)
                     except subprocess.CalledProcessError as e:
                         print(f"Error executing {file_path} with argument {total_threads}: {e}")
                 break

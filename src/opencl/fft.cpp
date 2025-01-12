@@ -108,7 +108,7 @@ int main(int argc, const char* argv[]) {
 
     auto start{ std::chrono::high_resolution_clock::now() };
 
-    for (size_t i = 0; i < 100'00) {
+    for (size_t i = 0; i < 100'000; i ++) {
         cl::Buffer bufferInput(context, CL_MEM_READ_WRITE, N * sizeof(cl_float2));
         cl::Buffer bufferOutput(context, CL_MEM_READ_WRITE, N * sizeof(cl_float2));
 
