@@ -89,13 +89,13 @@ int main(int argc, const char * argv[])
 
   auto start{ std::chrono::high_resolution_clock::now() };
 
-  for (size_t i = 0; i < 100'00; i++)
-  {
-    cuFloatComplex *fftSequence, *fftSequenceBitReversed;
+  cuFloatComplex *fftSequence, *fftSequenceBitReversed;
 
+  for (size_t i = 0; i < 10'000; i++)
+  {
     checkCuda( cudaMallocManaged(&fftSequence, N*sizeof(cuFloatComplex)) );
     checkCuda( cudaMallocManaged(&fftSequenceBitReversed, N*sizeof(cuFloatComplex)) );
-
+      
     for (size_t i = 1; i <= N; i++)
     {
       fftSequence[i-1] = make_cuFloatComplex(i, 0);
@@ -105,7 +105,6 @@ int main(int argc, const char * argv[])
     int device;
     cudaGetDevice(&device);
     cudaGetDeviceProperties(&prop, device);
-    std::cout << "Maximum work group size (threads per block): " << prop.maxThreadsPerBlock << std::endl;
 
     /// Important to set the work group to maximum size for maximum compute unit unitilization
     int blockSize = prop.maxThreadsPerBlock > N ? N : prop.maxThreadsPerBlock;
@@ -113,13 +112,16 @@ int main(int argc, const char * argv[])
 
     reverse_bits<<<numBlocks, blockSize>>>(fftSequence, fftSequenceBitReversed, log2(N));
 
-    blockSize = 256 > N ? N : 256;
+    blockSize = prop.maxThreadsPerBlock > N ? N : prop.maxThreadsPerBlock;
     numBlocks = (N/2 + blockSize - 1) / blockSize;
 
     for (int s = 2; s <= N; s *= 2)
     {
       fft<<<numBlocks, blockSize>>>(fftSequenceBitReversed, s);
     }
+
+    cudaFree(fftSequence);
+    cudaFree(fftSequenceBitReversed);
 
     cudaDeviceSynchronize();
   }
@@ -128,9 +130,6 @@ int main(int argc, const char * argv[])
 
   std::chrono::duration<double> elapsed{ end - start };
   std::cout << "Elapsed time: " << elapsed.count() << " seconds\n";
-
-  cudaFree(fftSequence);
-  cudaFree(fftSequenceBitReversed);
   
   return 0;
 }

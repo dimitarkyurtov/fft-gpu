@@ -12,7 +12,7 @@ def main():
     metal_cu = [1, 2, 4, 6, 8, 16, 32]
 
     cuda_thread_group_length = 1024
-    cuda_sms = [1, 2, 4, 6, 8, 16, 32]
+    cuda_sms = [1, 10, 20, 30, 40, 80, 160]
 
     opencl_thread_group_length = 1024
     opencl_cu = [1, 2, 4, 6, 8, 16, 32]

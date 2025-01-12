@@ -83,7 +83,7 @@ int main(int argc, const char * argv[]) {
                 FastFourierTranformMetal* fftMetal = [[FastFourierTranformMetal alloc] initWithFFTSequence:fftSequence withDevice:device];
                 
                 uint64_t startTime{ mach_absolute_time() };
-                for (int i = 0; i < 100'000; i ++)
+                for (int i = 0; i < 10'000; i ++)
                 {
                     [fftMetal fft];
                     //                [fftMetal printResult];
